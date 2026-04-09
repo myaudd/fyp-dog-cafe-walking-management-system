@@ -7,7 +7,7 @@
   justify-content: center;
 }
 
-.login-container h2 {
+.login-container h1 {
     text-align: center;
     margin-top: 40px;
 }
@@ -17,7 +17,7 @@
   grid-template-columns: auto 1fr;
   align-items: center;
   column-gap: 16px;
-  row-gap: 8px;
+  row-gap: 12px;
   width: 100%;
   max-width: 420px;
   margin-top: 100px;
@@ -44,6 +44,12 @@
 .form-group input:focus {
   outline: none;
   border-color: #444;
+}
+
+.error-text {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
 }
 
 .login-button {
