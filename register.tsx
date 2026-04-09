@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { supabase } from "./supabaseClient";
 import "./register.css";
 
 const Register = () => {
@@ -11,7 +12,7 @@ const Register = () => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setError("");
 
     if (!username || !email || !password) {
@@ -24,7 +25,28 @@ const Register = () => {
       return;
     }
 
-    alert("Registration successful!");
+    try {
+      const { error } = await supabase.from("customer").insert([
+        {
+          customername: username,
+          customeremail: email,
+          customerpassword: password,
+        },
+      ]);
+
+      if (error) {
+        if (error.message.includes("customername")) {
+          setError("Username already taken.");
+        } else {
+          setError(error.message);
+        }
+        return;
+      }
+      
+      alert("Registration successful!");
+    } catch (err) {
+      setError("Something went wrong.");
+    }
   };
 
   return (
@@ -43,7 +65,7 @@ const Register = () => {
         <label>Email</label>
         <input
           type="email"
-          id="email" 
+          id="email"
           name="email"
           placeholder="Enter email"
           value={email}

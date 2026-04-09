@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { supabase } from "./supabaseClient";
 import "./login.css";
 
 const Login = () => {
@@ -6,7 +7,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setError("");
 
     if (!username || !password) {
@@ -14,7 +15,27 @@ const Login = () => {
       return;
     }
 
+    try {
+      const { data, error } = await supabase
+        .from("customer")
+        .select("*")
+        .eq("customername", username)
+        .single();
+  
+      if (error || !data) {
+        setError("User not found.");
+        return;
+      }
+  
+      if (data.customerpassword !== password) {
+        setError("Incorrect password.");
+        return;
+      }
+
     alert("Log in successful!");
+  } catch (err) {
+    setError("Something went wrong.");
+  }
   };
 
   return (
