@@ -2,6 +2,7 @@ import './App.css'
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Login from "./login";
 import Register from "./register";
+import CustomerHome from "./customer/customerHome";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/customer/customerHome" element={<CustomerHome />} />
     </Routes>
   );
 }
