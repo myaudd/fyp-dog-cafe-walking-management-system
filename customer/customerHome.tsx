@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
 import "./customerHome.css";
@@ -7,11 +8,13 @@ type Dog = {
   residentdogname: string;
   residentdoggender: string;
   residentdogbreed: string;
-  residentdogsize: number;
+  residentdogsize: string;
 };
 
 const customerHome = () => {
+  const navigate = useNavigate();
   const [dogs, setDogs] = useState<Dog[]>([]);
+  const [breeds, setBreeds] = useState<string[]>([]);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("default");
   const [selectedBreeds, setSelectedBreeds] = useState<string[]>([]);
@@ -21,10 +24,21 @@ const customerHome = () => {
       const { data } = await supabase
         .from("residentdog")
         .select("*");
-
-      if (data) setDogs(data);
+  
+      if (data) {
+        setDogs(data);
+  
+      const uniqueBreeds = [
+          ...new Set(
+            data
+              .map(d => d.residentdogbreed)
+              .filter(breed => breed && breed.trim() !== "")
+          )
+        ];        
+        setBreeds(uniqueBreeds);
+      }
     };
-
+  
     fetchDogs();
   }, []);
 
@@ -77,7 +91,7 @@ const customerHome = () => {
         <button
           type="button"
           className="profile-icon"
-          onClick={() => (window.location.href = "/profile")}
+          onClick={() => navigate("/customerProfile")}
           aria-label="Profile"
         >
           👤
@@ -98,20 +112,20 @@ const customerHome = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-
-        <button onClick={handleSort} className="sort-btn">
-          {sort === "default" && "⇅"}
-          {sort === "asc" && "↓"}
-          {sort === "desc" && "↑"}
-        </button>
       </div>
 
       <div className="content">
-
         <div className="filter">
+          <p>Sort by size</p>
+          <button onClick={handleSort}>
+            {sort === "default" && "⇅"}
+            {sort === "asc" && "↓"}
+            {sort === "desc" && "↑"}
+          </button>
+
           <p>Filter by breed</p>
 
-          {["Golden Retriever", "Chihuahua", "Beagle", "Husky", "Shepherd"].map(breed => (
+          {breeds.map(breed => (
             <button
               key={breed}
               className={selectedBreeds.includes(breed) ? "active" : ""}

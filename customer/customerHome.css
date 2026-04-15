@@ -56,31 +56,37 @@ body {
   
   .menu-bar .active {
     background: #ddd;
+    border-radius: 0px;
   }
   
   .search-sort {
     display: flex;
+    flex-direction: row;
     justify-content: center;
     gap: 10px;
     margin-bottom: 20px;
+    padding-bottom: 20px;
   }
   
   .search-sort input {
-    width: 300px;
-    padding: 8px;
+    width: 450px;
+    height: 34px;
+    padding: 0 14px;
+    border: 1px solid #6f6f6f;
+    border-radius: 9px;
+    background: #fff;
+    font-size: 16px;
   }
-  
-  .sort-btn {
-    padding: 8px;
-  }
-  
+    
   .content {
     display: flex;
+    flex-direction: row;
     gap: 20px;
   }
   
   .filter {
     width: 200px;
+    padding-right: 50px;
   }
   
   .filter button {
@@ -104,8 +110,11 @@ body {
   }
   
   .dog-card {
+    height: 400px;
     background: #eee;
     padding: 10px;
+    display: flex;
+    flex-direction: column;
     cursor: pointer;
     border-radius: 10px;
     transition: 0.2s;
@@ -116,7 +125,8 @@ body {
   }
   
   .dog-image {
-    height: 120px;
+    min-height: 250px;
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -124,7 +134,23 @@ body {
   }
   
   .dog-info {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 16px;
+    row-gap: 12px;
+    width: 100%;
+    margin-top: auto;
+  }
+
+  .label {
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 6px;
+  }
+
+  .value {
+    text-align: right;
+    font-size: 16px;
+    padding-right: 6px;
   }
